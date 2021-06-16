@@ -13,5 +13,11 @@ case object Orange extends Item
 class ShoppingCart {
     val inventory: Map[Item, Pence] = Map(Apple -> Pence(60), Orange -> Pence(25))
 
-    def checkout(offer: List[Offer])(items: List[Item]): Pence = items.flatMap(inventory.get).fold(Pence(0))(_.add(_))
+    def checkout(offer: List[Offer])(items: List[Item]): Option[Pence] = {
+        val offerItems = offer.map(_.item)
+
+        Option.when(
+            offerItems.distinct.length == offerItems.length
+        )(items.flatMap(inventory.get).fold(Pence(0))(_.add(_)))
+    }
 }
