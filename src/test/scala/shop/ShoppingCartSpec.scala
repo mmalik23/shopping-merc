@@ -51,5 +51,20 @@ class ShoppingCartSpec extends AnyFreeSpec with Matchers {
             cart.checkout(List(Offer(Orange, 2, 1), Offer(Orange, 3, 2)))(Nil) shouldBe None
         }
 
+        "three oranges should be the price of two" in {
+           checkout(List(Orange, Orange, Orange)) shouldBe Some(Pence(50))
+        }
+
+        "six oranges should be the price of foure" in {
+           checkout(List(Orange, Orange, Orange, Orange, Orange, Orange)) shouldBe Some(Pence(100))
+        }
+
+        "two apples should be the price of 1" in {
+           checkout(List(Apple, Apple)) shouldBe Some(Pence(60))
+        }
+        "two apples and three oranges should be the price of 1" in {
+           checkout(List(Apple, Apple, Orange, Orange, Orange)) shouldBe Some(Pence(110))
+        }
+
     }
 } 
