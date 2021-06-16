@@ -9,15 +9,15 @@ class ShoppingCartSpec extends AnyFreeSpec with Matchers {
 
     "inventory" - {
         "contains apples and oranges" in {
-            cart.inventory.keys.toList shouldBe List("apple", "orange")
+            cart.inventory.keys.toList shouldBe List(Apple, Orange)
         }
 
         "price of an apple is 60 pence" in {
-            cart.inventory.get("apple") shouldBe Some(Pence(60))
+            cart.inventory.get(Apple) shouldBe Some(Pence(60))
         }
 
         "price of an orange is 60 pence" in {
-            cart.inventory.get("orange") shouldBe Some(Pence(25))
+            cart.inventory.get(Orange) shouldBe Some(Pence(25))
         }
     }
 } 
