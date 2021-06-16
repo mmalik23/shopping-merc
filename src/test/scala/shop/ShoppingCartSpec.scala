@@ -20,17 +20,32 @@ class ShoppingCartSpec extends AnyFreeSpec with Matchers {
             cart.inventory.get(Orange) shouldBe Some(Pence(25))
         }
     }
-    "checkout" - {
+    "checkout - no offer" - {
+
+        val checkout = cart.checkout(Nil) _
         "Given an empty list then return zero pence" in {
-            cart.checkout(Nil) shouldBe Pence(0)
+            checkout(Nil) shouldBe Pence(0)
         }
 
         "Given a list an apple and orange" in {
-            cart.checkout(List(Apple, Orange)) shouldBe Pence(85)
+            checkout(List(Apple, Orange)) shouldBe Pence(85)
         }
 
         "Given a list of duplicates ensure each item is added seperately" in {
-            cart.checkout(List(Apple, Apple)) shouldBe Pence(120)
+            checkout(List(Apple, Apple)) shouldBe Pence(120)
         }
+    }
+    "checkout - offer (buy 2 apple get 1 free, by 3 oranges get 2)" - {
+
+        val checkout = cart.checkout(List(Offer(Apple, 2, 1), Offer(Orange, 3, 2))) _
+
+        "Given an empty list then return zero pence" in {
+            checkout(Nil) shouldBe Pence(0)
+        }
+
+        "Given a list of apples and oranges do no offers if the required amount has not been hit" in {
+            checkout(List(Apple, Orange, Orange)) shouldBe Pence(110)
+        }
+        
     }
 } 
